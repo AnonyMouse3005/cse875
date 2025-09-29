@@ -29,8 +29,8 @@ import numpy
 import csv
 
 MAX_ITERATION = 250000
-ALPHA = 0.5
-BETA = 0.8
+ALPHA = 0.9
+BETA = 0.9
 
 qTable = []
 tpTable = []
@@ -151,27 +151,34 @@ t = 0
 alpha = ALPHA
 s = 0
 rewardSoFar = 0
+
 while (t < MAX_ITERATION):
-   # alpha = computeAlpha(alpha,t) # only if we want alpha to be dependent on t
+   alpha = computeAlpha(alpha,t) # only if we want alpha to be dependent on t
    a = decideAction(s) 
    s_next = obtainNextState(s,a)
    if (s == s_next):
       r = 0
    else:
       r = obtainReward(s,a,s_next)
-   rewardSoFar = rewardSoFar + r
+   # rewardSoFar = rewardSoFar + r
+   # print("rewardSoFar = " + str(rewardSoFar))
    val = computeValue(s_next)
    qTable[s][a] = (1 - alpha)*qTable[s][a] + alpha*(r + BETA*val)
+
+   print("t = " + str(t))
    s = s_next
    t = t + 1
   
 # end while
 
+
 # print out the Q table
 for i in range(0,MAX_NUM_STATES):
    for j in range(0,MAX_NUM_ACTIONS):
-      print("["+str(i)+"]["+str(j)+"]: "+str(qTable[i][j]))
+      #print("["+str(i)+"]["+str(j)+"]: "+str(qTable[i][j]))
+      print(str(qTable[i][j]))
 
 # print out final total rewards
-print("Total rewards = " + str(rewardSoFar))
+#print("Total rewards = " + str(rewardSoFar))
+print(str(rewardSoFar))
 
