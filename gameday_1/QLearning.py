@@ -124,8 +124,18 @@ def computeAlpha(alpha,t):  # TODO
    return alpha
 # end computeAlpha
 
-def decideAction(s):  # TODO
-   return random.randint(0,MAX_NUM_ACTIONS-1)
+def decideAction(s, epsilon=0.5):
+   '''
+   Decide action given current state s using the standard epsilon-greedy algorithm.
+   Reference:
+   Sutton, R. S. & Barto, A. G. 1998 Reinforcement learning: an introduction. Cambridge, MA: MIT Press.
+   '''
+   # return random.randint(0,MAX_NUM_ACTIONS-1)
+   if random.uniform(0, 1) < epsilon:  # explore with probability `epsilon`
+      return random.randint(0,MAX_NUM_ACTIONS-1)  # randomly select an action in the action space
+   else:  # exploit with probability `1-epsilon`
+      q_s = qTable[s]
+      return q_s.index(max(q_s))  # select the action with the highest Q-value for the current state
 # end decideAction
 
 def computeValue(s):
