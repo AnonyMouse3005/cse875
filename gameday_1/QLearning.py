@@ -30,7 +30,7 @@ import csv
 
 MAX_ITERATION = 250000
 ALPHA = 0.9
-BETA = 0.9
+BETA = 0.95
 
 qTable = []
 tpTable = []
@@ -120,8 +120,12 @@ def obtainNextState(s,a):
 # end obtainNextState
 
 def computeAlpha(alpha,t):  # TODO
-   alpha = alpha*(MAX_ITERATION - t)/(1.0*MAX_ITERATION)
-   return alpha
+	if t < 5000:
+		return ALPHA  
+
+	alpha = 1.0 /numpy.sqrt(t)
+
+	return max(0.02,alpha)
 # end computeAlpha
 
 def decideAction(s, epsilon=0.5):
